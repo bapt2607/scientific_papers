@@ -1,0 +1,29 @@
+{
+  "sciencedirect": {
+    "title": "span.title-text",
+    "abstract": ".abstract.author",
+    "content": ["div#body.Body.u-font-gulliver.text-s", "div#preview-section-introduction", "div#preview-section-snippets"],
+    "reference_scholar": "section#bi005.bibliography.u-font-gulliver.text-s",
+    "reference_link_scholar": ".anchor.link.anchor-default.anchor-external-link",
+    "reference": "div#preview-section-references",
+    "reference_link": ".anchor.title.anchor-default"
+
+  },
+  "wiley": {
+    "title": "h1.citation__title",
+    "abstract": "div.article-section__content.en.main",
+    "content": ["section.article-section.article-section__full"],
+    "reference": "section.article-section.article-section__references",
+    "reference_button": "div.accordion__control.clicked",
+    "reference_link": ".getFTR__link.getFTR__link--color.border-left-none.multi-link"
+}
+,
+  "peerj": {
+    "title": "h1.article-title",
+    "abstract": "div.abstract",
+    "content": ["div#article-item-main-sections"],
+    "reference": "div#article-item-references-text",
+    "reference_link": ".article-title"
+  }
+}
+
