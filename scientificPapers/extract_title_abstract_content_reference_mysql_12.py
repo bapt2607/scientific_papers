@@ -275,15 +275,6 @@ def process_url(tags, url, connection):
         print(f"An error occurred while extracting data from {url}: {e}")
         title, abstract, content = None, None, None
         extraction_successful = False
-
-    try:
-        references = get_reference_links(driver, tag_set)
-        reference_extraction_successful = bool(references)  # update reference_extraction_successful here
-    except Exception as e:
-        print(f"An error occurred while extracting reference links from {url}: {e}")
-        references = []
-        reference_extraction_successful = False
-
     source_id = insert_into_database(connection, url, title, abstract, content, extraction_successful, reference_extraction_successful)
     try:
         authors = extract_authors_info(driver, tag_set)
@@ -310,6 +301,7 @@ def process_url(tags, url, connection):
     if references:
         insert_links_into_database(connection, source_id, references)
     driver.quit()
+
 
 
 

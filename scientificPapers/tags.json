@@ -4,10 +4,11 @@
     "abstract": ".abstract.author",
     "content": "div#body.Body.u-font-gulliver.text-s", 
     "css_class": "anchor link anchor-default",
-    "css_class1": "anchor title anchor-default",
-    "content1": "div#preview-section-introduction",
-    "content2": "div#preview-section-snippets"
-
+    "author": "span.react-xocs-alternative-link",
+    "first_name": "span.given-name",
+    "last_name": "span.text.surname",
+    "affiliation": "div.affiliation",
+    "email": "a.anchor.anchor-default.anchor-has-colored-icon.anchor-icon-left"
   },
   "wiley": {
     "title": "h1.citation__title",
@@ -39,4 +40,3 @@
     "css_class": "openInAnotherWindow"
   }
 }
-
