@@ -1,0 +1,10 @@
+{
+    "sciencedirect": {
+        "css_class": "anchor link anchor-default"
+
+    },
+    "peerj": {
+        "css_class": "article-title"
+    }
+    
+}
