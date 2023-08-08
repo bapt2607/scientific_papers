@@ -20,7 +20,7 @@ SET FOREIGN_KEY_CHECKS = 1;
 TRUNCATE TABLE articles;
 TRUNCATE TABLE links;
 INSERT INTO links (source_id, reference_url) VALUES
-(1, 'https://www.sciencedirect.com/science/article/pii/S2211124716317090');
+(1, 'https://onlinelibrary.wiley.com/doi/full/10.1111/cgf.14919');
 INSERT INTO links (source_id, reference_url) VALUES
 (1, 'https://peerj.com/articles/15572/');
 INSERT INTO links (source_id, reference_url) VALUES
@@ -90,8 +90,8 @@ DROP COLUMN articles_id;
 SELECT *
 FROM `database_name`.`articles` a
 INNER JOIN `database_name`.`AuthorArticle` aa ON a.id = aa.article_id
-WHERE aa.author_id = 6;
+WHERE aa.author_id = 1;
 SELECT *
 FROM `database_name`.`authors` a
 INNER JOIN `database_name`.`AuthorArticle` aa ON a.id = aa.author_id
-WHERE aa.article_id = 6;
+WHERE aa.article_id = 1;
