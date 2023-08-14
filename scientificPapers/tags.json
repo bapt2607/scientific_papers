@@ -1,8 +1,9 @@
 {
-  "sciencedirect": {
+  "sciencedirect": { 
     "title": "span.title-text",
     "abstract": ".abstract.author",
     "content": "div#body.Body.u-font-gulliver.text-s", 
+    "tag": "a",
     "css_class": "anchor link anchor-default",
     "author": "span.react-xocs-alternative-link",
     "first_name": "span.given-name",
@@ -10,33 +11,63 @@
     "affiliation": "div.affiliation",
     "email": "a.anchor.anchor-default.anchor-has-colored-icon.anchor-icon-left"
   },
-  "wiley": {
-    "title": "h1.citation__title",
-    "abstract": "div.article-section__content.en.main",
-    "content": "section.article-section.article-section__full",
-    "css_class": "getFTR__link getFTR__link--color ",
-    "author": "span.accordion-tabbed__tab-mobile.accordion__closed",
-    "first_name": "span"
-  },
+
   "peerj": {
     "title": "h1.article-title",
     "abstract": "div.abstract",
     "content": "div#article-item-main-sections",
+    "tag": "a",
     "css_class": "article-title",
     "author": "span.contrib",
     "first_name": "span.given-names",
     "last_name": "span.surname",
     "affiliation": "span.institution",
     "email": "a.corresp"
-    
-  }
-  ,
+  },
+
   "aacrjournals": {
     "title": "h1.wi-article-title.article-title-main",
     "abstract": "section.abstract",
     "content": "div.article-section-wrapper.js-article-section.js-content-section  ",
+    "tag": "a",
     "css_class": "openInAnotherWindow",
     "author": "div.al-author-name",
-    "first_name": "div.info-card-name"
+    "first_name": "a.linked-name.js-linked-name.stats-author-info-trigger",
+    "last_name": "a.linked-name.js-linked-name.stats-author-info-trigger"
+  },
+
+
+  "wiley": {
+    "title": "h1.citation__title",
+    "abstract": "div.article-section__content.en.main",
+    "content": "section.article-section.article-section__full",
+    "css_class": "getFTR__link getFTR__link--color ",
+    "author": ".author-name.accordion-tabbed__control",
+    "first_name": ".author-name.accordion-tabbed__control span",
+    "last_name": ".author-name.accordion-tabbed__control span"
+  },
+
+  "frontiers": {
+    "title": "h1",
+    "abstract": "p.mb0",
+    "content": "div.JournalFullText",
+    "tag": "p",
+    "css_class": "ReferencesCopy2"
+  },
+
+  "dovepress": {
+    "title": "h1",
+    "abstract": ".article-inner_html p",
+    "content": "div#article-fulltext"
+  },
+
+
+
+  "academic": {
+    "title": "h1.wi-article-title.article-title-main.accessible-content-title.at-articleTitle",
+    "abstract": "section.abstract",
+    "css_class": "trendmd-widget-list-item__link",
+    "author": "span.al-author-name-more.js-flyout-wrap",
+    "first_name": "a.linked-name.js-linked-name-trigger"
   }
 }
