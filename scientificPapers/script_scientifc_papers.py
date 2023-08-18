@@ -13,6 +13,12 @@ from bs4 import BeautifulSoup
 from urllib.parse import urlsplit
 import requests
 import mysql.connector
+#pip install selenium
+#pip install webdriver_manager
+#pip install beautifulsoup4
+#pip install requests
+#pip install mysql-connector-python
+
 
 #website all extract: sciencedirect, peerj, aacrjournals
 # no author: frontiers
