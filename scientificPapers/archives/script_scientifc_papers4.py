@@ -2,7 +2,6 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -38,7 +37,7 @@ def create_db_connection():
     return connection
 
 def update_into_database(connection, url, title, abstract, content, parsed, reference_parsed):
-    cursor = connection.cursor(buffered=True)
+    cursor = connection.cursor()
 
     # Get the id from the database using the URL
     cursor.execute("SELECT id FROM articles WHERE url = %s", (url,))
@@ -255,74 +254,56 @@ def extract_content(driver, tag_set):
         return None
 
 
+
 def get_reference_links(driver, tag_set):
-    links = []
-
     try:
-        # Time out pour le chargement de la page avec Selenium (par exemple, 10 secondes)
-        driver.set_page_load_timeout(10)
-
         html = driver.page_source
         soup = BeautifulSoup(html, 'html.parser')
+        
+        # Utilise le tag et la classe CSS spécifiés dans tag_set
         elements = soup.find_all(tag_set["tag"], {'class': tag_set["css_class"]})
 
+        links = []
         for element in elements:
+            # Si le tag est 'p', trouver le premier lien à l'intérieur
             if tag_set["tag"] == 'p':
                 link = element.find('a')
                 if link:
                     url = link.get('href')
+            # Si le tag est 'a', utiliser l'élément directement
             elif tag_set["tag"] == 'a':
                 url = element.get('href')
             else:
                 continue
 
-            if not url:
-                print(f"Invalid URL found: {url}")
-                continue
-
-            if url.startswith(("http://doi.org", "https://doi.org", "http://dx.doi.org", "https://dx.doi.org")):
-                try:
-                    response = requests.get(url, allow_redirects=True, timeout=10)  # Time out après 10 secondes
-                    url = response.url
-                except requests.RequestException as e:
-                    print(f"Failed to fetch DOI URL: {url}. Error: {e}")
-                    continue
+            # Continuer à traiter l'URL comme auparavant
+            if url.startswith("http://doi.org") or url.startswith("https://doi.org") or url.startswith("http://dx.doi.org") or url.startswith("https://dx.doi.org"):
+                response = requests.get(url, allow_redirects=True)
+                url = response.url
 
             if url.startswith("https://linkinghub.elsevier.com"):
-                try:
-                    driver.get(url)
-                    url = driver.current_url
-                except Exception as e:
-                    print(f"Failed to navigate to {url}. Error: {e}")
-                    continue
+                driver.get(url)
+                url = driver.current_url
 
-            elif not (url.startswith(("http", "www"))):
+            elif not (url.startswith("http") or url.startswith("www")):
                 base_url = "{0.scheme}://{0.netloc}".format(urlsplit(driver.current_url))
                 url = base_url + url
-
+            
             url = url.replace("?via%3Dihub", "")
+
             links.append(url)
-
         return links
-
     except Exception as e:
         print(f"Failed to extract reference links from the page. Error: {e}")
         return None
-
-# Remarque : Vous devriez initialiser et gérer le driver (par exemple, webdriver.Chrome()) à l'extérieur de cette fonction et le passer en tant que paramètre à la fonction.
 
 
 # Function to extract information from webpage
 def extract_info(driver, tag_set):
     title = extract_title(driver, tag_set)
-    if not title:
-        print("Title not found. Skipping abstract and content extraction.")
-        return None, None, None
-
     abstract = extract_abstract(driver, tag_set)
     content = extract_content(driver, tag_set)
     return title, abstract, content
-
 
 # Function to process URL and extract information
 def process_url(tags, url, connection):
@@ -335,7 +316,7 @@ def process_url(tags, url, connection):
     if domain is None:
         print(f"Unsupported website: {url}. Please add the appropriate tag selectors to the JSON file.")
         # insert URL into database even if unsupported
-        update_into_database(connection, url, None, None, None, -2, False)
+        update_into_database(connection, url, None, None, None, -1, False)
         driver.quit()
         return
     tag_set = tags[domain]
@@ -348,12 +329,6 @@ def process_url(tags, url, connection):
         print(f"An error occurred while extracting data from {url}: {e}")
         title, abstract, content = None, None, None
         parsed = -1
-    if title is None:
-        print(f"Unsupported website: {url}. Please add the appropriate tag selectors to the JSON file.")
-        # insert URL into database even if unsupported
-        update_into_database(connection, url, None, None, None, -1, False)
-        driver.quit()
-        return
     original_article_id = update_into_database(connection, url, title, abstract, content, parsed, reference_parsed)
     try:
         authors = extract_authors_info(driver, tag_set)
@@ -420,7 +395,6 @@ def get_extraction_status(connection, id):
     return result[0] if result else None
 
 
-
 def main():
     connection = create_db_connection()
     tags = load_tags()
@@ -457,7 +431,6 @@ def main():
             print(f"Skipping URL with ID {id} as it has already been processed.")
 
         id += 1
-
 
 
 if __name__ == "__main__":
